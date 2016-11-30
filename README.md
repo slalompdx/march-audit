@@ -25,8 +25,10 @@ $ march -h
 Sample usage:
 
 ```
-$ march audit_merged slalompdx march-audit
+$ march audit_merged slalompdx march-audit --no-interactive --destructive
 ```
+
+The above command will automatically find and delete all branches that have been merged in to the default branch and all branches that haven't been updated in the last 2 weeks.
 
 `march` is configured via environment variables, which may optionally be supplied in a file called `.env` in your working directory:
 
