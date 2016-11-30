@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'march'
 require 'thor'
 
@@ -21,7 +22,7 @@ module March
 
     option :max_age, default: 3600*24*14, type: :numeric
     desc 'audit_age NAMESPACE REPO', 'only audit branches for age'
-    def audit_merged(namespace, repo)
+    def audit_age(namespace, repo)
       ENV.store('MAX_AGE', options[:max_age])
       repo = March::Repo.new(namespace, repo)
       March::Audit.age(repo, options[:interactive], options[:destructive])
