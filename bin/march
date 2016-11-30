@@ -1,0 +1,47 @@
+require 'march'
+require 'thor'
+
+module March
+  class Command < Thor
+    class_option :interactive, default: true, type: :boolean
+    class_option :destructive, default: false, type: :boolean
+
+    desc 'audit NAMESPACE REPO', 'audit of NAMESPACE/REPO branch health'
+    def audit(namespace, repo)
+      March::Audit.complete(namespace, repo, options[:interactive], options[:destructive])
+    rescue Octokit::NotFound
+      puts "Cannot find repository #{namespace}/#{repo}"
+    end
+
+    desc 'audit_merged NAMESPACE REPO', 'only audit merged branches'
+    def audit_merged(namespace, repo)
+      repo = March::Repo.new(namespace, repo)
+      March::Audit.merged(repo, options[:interactive], options[:destructive])
+    end
+
+    option :max_age, default: 3600*24*14, type: :numeric
+    desc 'audit_age NAMESPACE REPO', 'only audit branches for age'
+    def audit_merged(namespace, repo)
+      ENV.store('MAX_AGE', options[:max_age])
+      repo = March::Repo.new(namespace, repo)
+      March::Audit.age(repo, options[:interactive], options[:destructive])
+    end
+
+    desc 'user', 'print the current username'
+    def user
+      puts March::Github.client.user.login
+    end
+  end
+end
+
+begin
+  March::Command.start
+rescue Faraday::SSLError => e
+  puts e
+  puts 'Cannot verify SSL certificate, consider setting VERIFY_SSL=false'
+rescue Interrupt
+  puts
+  puts 'Quitting...'
+end
+
+# vi:ft=ruby
