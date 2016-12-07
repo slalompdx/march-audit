@@ -66,6 +66,7 @@ module March
     end
 
     def delete_branches(branch_names)
+      raise ArgumentError unless branch_names.is_a?(Array)
       branch_names.each do |name|
         puts 'Deleting ' + name
         client.delete_branch(id, name)
