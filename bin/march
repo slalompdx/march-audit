@@ -20,10 +20,10 @@ module March
       March::Audit.merged(repo, options[:interactive], options[:destructive])
     end
 
-    option :max_age, default: 3600*24*14, type: :numeric
+    option :max_age, default: 14, type: :numeric
     desc 'audit_age NAMESPACE REPO', 'only audit branches for age'
     def audit_age(namespace, repo)
-      ENV.store('MAX_AGE', options[:max_age])
+      ENV.store('MAX_AGE', options[:max_age].to_s)
       repo = March::Repo.new(namespace, repo)
       March::Audit.age(repo, options[:interactive], options[:destructive])
     end

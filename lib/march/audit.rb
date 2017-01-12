@@ -39,7 +39,8 @@ module March
       msgs = repo.branch_age.each_with_object({}) do |(name, dates), acc|
         created = ChronicDuration.output(Time.now - dates[:oldest], weeks: true, units: 2)
         updated = ChronicDuration.output(Time.now - dates[:newest], weeks: true, units: 2)
-        if (Time.now - dates[:newest]) > (ENV['MAX_AGE'] || 3600*24*14)
+        time_diff = (ENV['MAX_AGE'].to_i * 3600 * 24 || 3600 * 24 * 14)
+        if (Time.now - dates[:newest]) > time_diff
           acc[name] = "Branch #{name} was created #{created} ago and updated #{updated} ago and is probably owned by #{repo.branch_owners[name].join(', ')}"
         end
       end

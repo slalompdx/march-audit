@@ -4,7 +4,7 @@ march
 Tool for quickly auditing branches in any GitHub or GHE repository you own for:
 
 - merged status: automate the process of deleting branches that have been merged
-- age: find and (optionally) cull branches that are older than `--max_age` seconds
+- age: find and (optionally) cull branches that are older than `--max_age` days
 
 Installation
 ------------
