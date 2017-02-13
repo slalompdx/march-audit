@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'march-audit'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.licenses    = ['MIT']
   s.summary     = "automate audit of repository branches"
   s.description = "tiny application that helps identify and cull branches that shouldn't exist"
