@@ -7,8 +7,10 @@ module March
     class_option :interactive, default: true, type: :boolean
     class_option :destructive, default: false, type: :boolean
 
+    option :max_age, default: 14, type: :numeric
     desc 'audit NAMESPACE REPO', 'audit of NAMESPACE/REPO branch health'
     def audit(namespace, repo)
+      ENV.store('MAX_AGE', options[:max_age].to_s)
       March::Audit.complete(namespace, repo, options[:interactive], options[:destructive])
     rescue Octokit::NotFound
       puts "Cannot find repository #{namespace}/#{repo}"
